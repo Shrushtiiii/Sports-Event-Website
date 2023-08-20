@@ -256,9 +256,6 @@ session_start();
         </div>
       </div>
     </footer>
-
-
-
   </div>
   <!-- .site-wrap -->
 
