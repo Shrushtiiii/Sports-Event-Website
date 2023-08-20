@@ -106,12 +106,9 @@ session_start();
 					echo "<tr><td ><h4>Username: $row[5]</td></tr>"; ?></h4></br><?php
         }
 
-        ?>
-                  
+        ?>             
 
-                        
-
-      
+              
                                      
           </div>
         </div>
