@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -76,51 +79,131 @@
       <div class="container">
         <div class="row align-items-center">
           <div class="col-lg-5 ml-auto">
-            <form action='logincheck.php' method='post'>
-</br></br> <table align='left' border=0 style="background-color:transparent; color:white;" cellspacing=0 rules='none'cellpadding=2 width=500px height=150px>
-<tr> <tr><td></td></tr>
-<tr> <td colspan=5 align='center' ><h3 class="h3 d-flex  mb-10" style="color:red">Please Login into your account to apply in any event.</h3></td></tr>
-<tr><td></td></tr>
-<tr><td></td></tr>
-<tr><td></td></tr>
-<tr><td></td></tr>
-<tr><td></td></tr>
-<tr><td></td></tr>
-<tr><td></td></tr>
-    <td align='left' width=50%>USERNAME</td>
-	<td colspan='3' align='left' width=50%><input type='text' size=25px placeholder='username' name='nm' value=''></td>
-  </tr>
-  <tr><td></td></tr>
-  <tr><td></td></tr>
-  <tr><td></td></tr>
-<tr><td></td></tr>
-<tr><td></td></tr>
-  <tr>
-    <td align='left'width=50%>PASSWORD</td>
-	<td colspan='3' align='left'width=50%><input type='password' size=25px placeholder='password' name='pass' value=''></td>
-  </tr>
-<tr> <tr><td></td></tr>
-<tr><td></td></tr>
-<tr><td></td></tr>
+
+<?php
+              $uname=$_REQUEST["a"];
+
+              $con=mysqli_connect("localhost","root","1234","sports");
+              $r=mysqli_query($con,"select * from registration where username='$uname' ");
+
+
+              while($row=mysqli_fetch_array($r))
+              { ?>
+
+
+            <form action='' method='post'>
+</br></br> <table align='left' border=5 style="background-color:transparent; color:white;" cellspacing=0 rules='none'cellpadding=2 width=600px height=150px>
+<tr> <td colspan=5  ><h3 class="h3 d-flex " style="color:red"  >&nbsp &nbsp &nbsp &nbsp  Username cannot be changed ! </h3></td></tr>
 <tr><td></td></tr>
 <tr><td></td></tr>
 <tr><td></td></tr>
 
+    <td>Applicant's Name</td>
+  <td colspan='2' ><input type='text' required name='nm'   value='<?php echo $row[1]; ?>' ></td>
+  </tr>
+  <tr><td></td></tr>
+<tr><td></td></tr>
+<tr><td></td></tr>
+
+ <tr>
+    <td >Gender</td>
+  <td colspan='3'>
+    <input type='radio' name='r1' <?php if($row[2]=="Male") echo "checked";?>  value='Male'>Male
+  <input type='radio' name='r1' <?php if($row[2]=="Female") echo "checked";?>    value='Female'>Female
+    <input type='radio' required name='r1' value='Other'>Other
+
+  </td> </tr>
   
-   <td>
-     <input type='submit' value='LOGIN' name='login'>
-	</td></tr>
-</table>
+   <tr>
+    <td>Contact Number</td>
+  <td colspan='2'><input type='text'required name='pno' maxlength="10" value='<?php echo $row[3]; ?>'></td>
+  </tr>
+  <tr><td></td></tr>
+<tr><td></td></tr>
+<tr><td></td></tr>
+
+   <tr>
+    <td >Email</td>
+  <td colspan='2'><input type='text' required name='email' value='<?php echo $row[4]; ?>'></td>
+  </tr>
+  <tr><td></td></tr>
+<tr><td></td></tr>
+<tr><td></td></tr>
+
+    <tr>
+    <td >Username</td>
+  <td colspan='2'><input type='text' readonly name='uname'  value='<?php echo $row[5]; ?>'></td>
+  </tr>
+  <tr><td></td></tr>
+<tr><td></td></tr>
+<tr><td></td></tr>
+
+  <tr>
+    <td >Password</td>
+  <td colspan='2'><input type='password' required  name='pass' maxlength="10" placeholder="Maximum 10 characters" value='<?php echo $row[6]; ?>'></td>
+  </tr>
+  <tr><td></td></tr>
+<tr><td></td></tr>
+<tr><td></td></tr>
+
+  <tr>
+   <td align='center' width=50%>
+    <input type='submit' value='UPDATE' name='Update'>
+  </td>
+
+   <td width=50% align='center'>
+     <input type='reset' value='CANCEL'>
+  </td>
+</tr>
+<tr><td></td></tr>
+<tr><td></td></tr>
+<tr><td></td></tr><?php }?>
+
+   
+   </table>
 </form>
+<?php
+if(isset($_POST['Update'])) // when click on Update button
+{ 
+ $uname=$_REQUEST["a"];
+$aname=$_POST["nm"];
+$gen=$_POST["r1"];
+$contact=$_POST["pno"];
+$email=$_POST["email"];
+$username=$_POST["uname"];
+$pass=$_POST["pass"];
+
+ $check=mysqli_query($con," select username from registration where username='$uname'");
+$res=mysqli_num_rows($check);
+if($res>0)
+     {
+      $edit ="UPDATE registration SET Name='$aname', gender='$gen' ,phone='$contact', email='$email'  , username='$username',password='$pass' where  username='$uname'";
+       $query_run = mysqli_query($con,$edit);
+  
+         if($query_run)
+      {     
+           echo "<script>alert('Details updated successfully.')
+        window.location.href='index.php'</script>";
+     
+    
+      } 
+        else
+      {  echo "<script>alert('Details not updated .')
+                window.location.href='update.php' </script>"; 
+
+}}
+         else { echo "<script>alert('Something went wrong!')
+                window.location.href='index.php' </script>"; 
+        }}
+?>
+
+
           </div>
         </div>
       </div>
     </div>
-
     
-    
-    <div class="container">
-      
+    <div class="container">     
 
       <div class="row">
         <div class="col-lg-12">
@@ -130,11 +213,6 @@
       </div>
     </div>
   
-
-    
-    <div class="site-section bg-dark">
-      
-    </div> <!-- .site-section -->
 
     <div class="site-section">
       <div class="container">
