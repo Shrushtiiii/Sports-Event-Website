@@ -60,7 +60,7 @@ session_start();
           <div class="ml-auto">
             <nav class="site-navigation position-relative text-right" role="navigation">
               <ul class="site-menu main-menu js-clone-nav mr-auto d-none d-lg-block">
-                <li class="active"><a href="index.html" class="nav-link">Home</a></li>
+                <li class="active"><a href="index.php" class="nav-link">Home</a></li>
                 <li><a href="events.php" class="nav-link">List of Events</a></li>
                 <li><a href="contact.html" class="nav-link">About Us</a></li>
                 <li><a href="contact.html" class="nav-link">Contact Us</a></li>
@@ -79,140 +79,89 @@ session_start();
       <div class="container">
         <div class="row align-items-center">
           <div class="col-lg-5 ml-auto">
-
-<?php
-              $uname=$_REQUEST["a"];
-
-              $con=mysqli_connect("localhost","root","1234","sports");
-              $r=mysqli_query($con,"select * from registration where username='$uname' ");
-
-
-              while($row=mysqli_fetch_array($r))
-              { ?>
-
-
-            <form action='' method='post'>
-</br></br> <table align='left' border=5 style="background-color:transparent; color:white;" cellspacing=0 rules='none'cellpadding=2 width=600px height=150px>
-<tr> <td colspan=5  ><h3 class="h3 d-flex " style="color:red"  >&nbsp &nbsp &nbsp &nbsp  Username cannot be changed ! </h3></td></tr>
-<tr><td></td></tr>
-<tr><td></td></tr>
-<tr><td></td></tr>
-
-    <td>Applicant's Name</td>
-  <td colspan='2' ><input type='text' required name='nm'   value='<?php echo $row[1]; ?>' ></td>
-  </tr>
-  <tr><td></td></tr>
-<tr><td></td></tr>
-<tr><td></td></tr>
-
- <tr>
-    <td >Gender</td>
-  <td colspan='3'>
-    <input type='radio' name='r1' <?php if($row[2]=="Male") echo "checked";?>  value='Male'>Male
-  <input type='radio' name='r1' <?php if($row[2]=="Female") echo "checked";?>    value='Female'>Female
-    <input type='radio' required name='r1' value='Other'>Other
-
-  </td> </tr>
-  
-   <tr>
-    <td>Contact Number</td>
-  <td colspan='2'><input type='text'required name='pno' maxlength="10" value='<?php echo $row[3]; ?>'></td>
-  </tr>
-  <tr><td></td></tr>
-<tr><td></td></tr>
-<tr><td></td></tr>
-
-   <tr>
-    <td >Email</td>
-  <td colspan='2'><input type='text' required name='email' value='<?php echo $row[4]; ?>'></td>
-  </tr>
-  <tr><td></td></tr>
-<tr><td></td></tr>
-<tr><td></td></tr>
-
-    <tr>
-    <td >Username</td>
-  <td colspan='2'><input type='text' readonly name='uname'  value='<?php echo $row[5]; ?>'></td>
-  </tr>
-  <tr><td></td></tr>
-<tr><td></td></tr>
-<tr><td></td></tr>
-
-  <tr>
-    <td >Password</td>
-  <td colspan='2'><input type='password' required  name='pass' maxlength="10" placeholder="Maximum 10 characters" value='<?php echo $row[6]; ?>'></td>
-  </tr>
-  <tr><td></td></tr>
-<tr><td></td></tr>
-<tr><td></td></tr>
-
-  <tr>
-   <td align='center' width=50%>
-    <input type='submit' value='UPDATE' name='Update'>
-  </td>
-
-   <td width=50% align='center'>
-     <input type='reset' value='CANCEL'>
-  </td>
-</tr>
-<tr><td></td></tr>
-<tr><td></td></tr>
-<tr><td></td></tr><?php }?>
-
-   
-   </table>
-</form>
-<?php
-if(isset($_POST['Update'])) // when click on Update button
-{ 
- $uname=$_REQUEST["a"];
-$aname=$_POST["nm"];
-$gen=$_POST["r1"];
-$contact=$_POST["pno"];
-$email=$_POST["email"];
-$username=$_POST["uname"];
-$pass=$_POST["pass"];
-
- $check=mysqli_query($con," select username from registration where username='$uname'");
-$res=mysqli_num_rows($check);
-if($res>0)
-     {
-      $edit ="UPDATE registration SET Name='$aname', gender='$gen' ,phone='$contact', email='$email'  , username='$username',password='$pass' where  username='$uname'";
-       $query_run = mysqli_query($con,$edit);
-  
-         if($query_run)
-      {     
-           echo "<script>alert('Details updated successfully.')
-        window.location.href='index.php'</script>";
-     
-    
-      } 
-        else
-      {  echo "<script>alert('Details not updated .')
-                window.location.href='update.php' </script>"; 
-
-}}
-         else { echo "<script>alert('Something went wrong!')
-                window.location.href='index.php' </script>"; 
-        }}
-?>
-
-
+            <h1 class="text-white">SPORTS' EVENT WEBSITE</h1>
+            <h3>You miss 100% of shots you don't take.</h3>
+             
+                         
           </div>
         </div>
       </div>
     </div>
-    
-    <div class="container">     
 
+    
+    
+<script>
+    $(document).ready(function() {
+    $('#details').DataTable();
+} );
+</script>
+    
+    <div class="site-section bg-dark" id="here">
+
+      <h1 align="center"> Details of the Event</h1>
+<table  id="details"   border='2' align='center' style="background:transparent;opacity:0.9;width:1000px;margin-top:-200px;height:800px;"  !important cellspacing=1  cellpadding=14>
+<thead>
+</thead>
+ <tbody>
+      <?php
+
+              $no=$_REQUEST["a"];
+
+              $con=mysqli_connect("localhost","root","1234","sports");
+              $r=mysqli_query($con,"select * from eventlist where id='$no' ");
+
+
+              while($row=mysqli_fetch_array($r))
+              {
+
+echo "<tr><td><h3>ID: </td><td ></h3><h3>$row[0]</td></tr>"; ?></h3></br><?php
+echo "<tr><td><h3>NAME: </td><td ></h3><h3>$row[1]</td></tr>";?></h3></br><?php
+echo "<tr><td><h3>DATE: </td><td ></h3><h3>$row[2]</td></tr>";?></h3></br><?php
+echo "<tr><td><h3>TYPE: </td><td ></h3><h3>$row[3]</td></tr>";?></h3></br><?php
+echo "<tr><td><h3>DESCRIPTION: </td><td ></h3><h3>$row[4]</td></tr>";?></h3></br><?php
+echo "<tr><td><h3>ELIGIBILITY: </td><td ></h3><h3>$row[5]</td></tr>";?></h3></br><?php
+echo "<tr><td><h3>LOCATION: </td><td ></h3><h3>$row[6]</td></tr>";?></h3></br><?php
+echo "<tr><td><h3>FINAL DATE TO APPLY: </td><td></h3><h3>$row[7]</td></tr>";?></h3></br><?php
+
+}
+          ?>
+          </tbody></table>
+    </div> 
+
+    <div class="container" >
+      
+
+    <?php
+        if(isset($_SESSION["idd"])){ 
+          $con=mysqli_connect("localhost","root","1234","sports");
+              $r=mysqli_query($con,"select * from eventlist where id='$no' ");
+              $row=mysqli_fetch_array($r);
+              $use_this=$_SESSION["idd"];
+            
+        ?>
+
+        <p>
+              <a  href="apply.php?a=<?php echo $row[0];?>&b=<?php echo $use_this; ?>" class="btn btn-primary py-3 px-4 mr-3">Apply</a>
+              
+        </p>       
+        
+        <?php
+
+        } 
+        else { ?>
+        
+         <p>  <h3>You need to register yourself first for applying </h3>
+              <a href="register.php" class="btn btn-primary py-3 px-4 mr-3"> Register</a>
+              
+            </p>
+        <?php } ?>  
       <div class="row">
         <div class="col-lg-12">
-          
           
         </div>
       </div>
     </div>
-  
+  <!-- .site-section -->
 
     <div class="site-section">
       <div class="container">
