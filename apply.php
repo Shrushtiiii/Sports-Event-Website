@@ -347,7 +347,7 @@ echo mysqli_error($con);
 
 
   </div>
-  <!-- .site-wrap -->
+ 
 
   <script src="js/jquery-3.3.1.min.js"></script>
   <script src="js/jquery-migrate-3.0.1.min.js"></script>
